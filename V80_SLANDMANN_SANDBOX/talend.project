@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:TalendProperties="http://www.talend.org/properties">
+  <TalendProperties:Project xmi:id="_BA2AATm5Ee244sgUXWc5kQ" label="V80_slandmann_sandbox" description="Diese Projekt ist nur temporär und dienst zum Üben bis MS DevOps bereit steht." language="java" technicalLabel="V80_SLANDMANN_SANDBOX" author="_BA2AAjm5Ee244sgUXWc5kQ" productVersion="Talend Cloud Data Fabric-8.0.1.20220623_1359-patch" url="{&quot;commitLogPattern&quot;:&quot;{0}&quot;,&quot;location&quot;:&quot;https://github.com/sven957/talend8.git&quot;,&quot;settings&quot;:&quot;000&quot;,&quot;storage&quot;:&quot;git&quot;}" type="DQ" itemsRelationVersion="1.3" bigData="false">
+    <migrationTask xmi:id="_BCatUDm5Ee244sgUXWc5kQ" id="org.talend.repository.model.migration.CheckProductVersionMigrationTask" breaks="7.1.0" version="7.1.1"/>
+  </TalendProperties:Project>
+  <TalendProperties:User xmi:id="_BA2AAjm5Ee244sgUXWc5kQ" login="sven.landmann@nfr.cimtag" firstName="Sven" lastName="Landmann" type="DQ"/>
+</xmi:XMI>
