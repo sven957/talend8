@@ -1,0 +1,90 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "Customer Interface",
+    "version" : "1.0.0",
+    "title" : "customer_api",
+    "contact" : { }
+  },
+  "consumes" : [ "application/json" ],
+  "produces" : [ "application/json" ],
+  "security" : [ {
+    "OAuth2" : [ ]
+  } ],
+  "paths" : {
+    "/customers" : {
+      "get" : {
+        "summary" : "getCustomers",
+        "description" : "Get a list of customers",
+        "produces" : [ "application/json" ],
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Status 200",
+            "schema" : {
+              "type" : "object",
+              "description" : "A list of customerIds",
+              "properties" : { }
+            },
+            "examples" : {
+              "application/json" : "{\n    \"customerIds\": [\n        1,\n        2\n    ]\n}"
+            }
+          }
+        }
+      },
+      "parameters" : [ ]
+    },
+    "/customers/{uuid}" : {
+      "get" : {
+        "summary" : "getCustomer",
+        "parameters" : [ {
+          "name" : "uuid",
+          "in" : "header",
+          "required" : true,
+          "type" : "string",
+          "x-example" : "BLABLA-BLA-UUID"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Status 200",
+            "schema" : {
+              "type" : "object",
+              "properties" : { }
+            },
+            "examples" : {
+              "application/json" : "{\n    \"uuid\":\"BLABLA-BLA-UUID\",\n    \"name\":\"Sven\",\n    \"paymentConditon\":1\n}"
+            }
+          }
+        }
+      },
+      "parameters" : [ {
+        "name" : "uuid",
+        "in" : "path",
+        "required" : true,
+        "type" : "string"
+      } ]
+    }
+  },
+  "securityDefinitions" : {
+    "OAuth2" : {
+      "type" : "oauth2",
+      "tokenUrl" : "",
+      "flow" : "application",
+      "scopes" : { }
+    }
+  },
+  "definitions" : {
+    "Customers" : {
+      "type" : "object",
+      "properties" : {
+        "customerIds" : {
+          "type" : "array",
+          "items" : {
+            "type" : "number"
+          }
+        }
+      },
+      "example" : "{\r\n    \"customerIds\": [\r\n        1,\r\n        2\r\n    ]\r\n}"
+    }
+  }
+}
