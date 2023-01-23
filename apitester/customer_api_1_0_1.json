@@ -1,0 +1,287 @@
+{
+  "version": 6,
+  "entities": [
+    {
+      "entity": {
+        "type": "Project",
+        "description": "Customer Interface",
+        "id": "7ae37079-1ebb-460f-877f-96408686eeb4",
+        "name": "customer_api 1.0.1"
+      },
+      "children": [
+        {
+          "entity": {
+            "type": "Service",
+            "id": "9361008b-9547-401b-aaff-602fde58745f",
+            "name": "customers"
+          },
+          "children": [
+            {
+              "entity": {
+                "type": "Request",
+                "method": {
+                  "link": "",
+                  "name": "DELETE"
+                },
+                "uri": {
+                  "query": {
+                    "delimiter": "&",
+                    "items": []
+                  },
+                  "host": "${\"BaseUrl\"}",
+                  "path": "/customers/customer/1"
+                },
+                "id": "75ee53b8-295e-4fba-9ec0-12cfcd5bf13c",
+                "name": "Delete a customer",
+                "headers": [],
+                "assertions": []
+              }
+            },
+            {
+              "entity": {
+                "type": "Request",
+                "method": {
+                  "requestBody": true,
+                  "link": "",
+                  "name": "POST"
+                },
+                "body": {
+                  "bodyType": "Text",
+                  "textBody": "{\n  \"id\":1234,\n  \"name\":\"Random Customer\",\n  \"out_customer_since\":\"2022-12-01\",\n  \"sales_rep\":\"Sven Landmann\",\n  \"amount_of_sales\":1,\n  \"amount_of_sales_uom\":\"pcs\"\n}"
+                },
+                "uri": {
+                  "host": "${\"BaseUrl\"}",
+                  "path": "/customers/customer"
+                },
+                "description": "Insert a customer or update an existing customer",
+                "id": "eccca247-07ec-4897-b725-40bd2424feef",
+                "name": "create_or_update_customer",
+                "headers": [
+                  {
+                    "enabled": true,
+                    "name": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "assertions": []
+              }
+            },
+            {
+              "entity": {
+                "type": "Request",
+                "method": {
+                  "link": "",
+                  "name": "GET"
+                },
+                "uri": {
+                  "host": "${\"BaseUrl\"}",
+                  "path": "/customers/customer/{uuid}"
+                },
+                "id": "cdc8b772-1fcb-41bb-82a7-9e336e383d61",
+                "name": "getCustomer",
+                "headers": [
+                  {
+                    "enabled": true,
+                    "name": "uuid",
+                    "value": "BLABLA-BLA-UUID"
+                  },
+                  {
+                    "name": "Name",
+                    "value": ""
+                  },
+                  {
+                    "enabled": true,
+                    "name": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "assertions": []
+              }
+            },
+            {
+              "entity": {
+                "type": "Request",
+                "method": {
+                  "link": "",
+                  "name": "GET"
+                },
+                "uri": {
+                  "host": "${\"BaseUrl\"}",
+                  "path": "/customers"
+                },
+                "description": "Get a list of customers",
+                "id": "ca367d9f-63fd-475b-94c4-716b3ace759a",
+                "name": "getCustomers",
+                "headers": [
+                  {
+                    "enabled": true,
+                    "name": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "assertions": []
+              }
+            }
+          ]
+        },
+        {
+          "entity": {
+            "type": "Service",
+            "id": "69ae10a3-76de-47ec-be08-84095cc8ae64",
+            "name": "product"
+          },
+          "children": [
+            {
+              "entity": {
+                "type": "Request",
+                "method": {
+                  "requestBody": true,
+                  "link": "",
+                  "name": "POST"
+                },
+                "body": {
+                  "bodyType": "Text",
+                  "textBody": "{\n    \"productId\":\"1\",\n    \"description\":\"mySampleProduct\",\n    \"price\":1.5,\n    \"moq\":1\n}"
+                },
+                "uri": {
+                  "host": "${\"BaseUrl\"}",
+                  "path": "/products"
+                },
+                "id": "dce42e9a-c0dc-4939-8498-7591f030bb04",
+                "name": "addProduct",
+                "headers": [
+                  {
+                    "enabled": true,
+                    "name": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "enabled": true,
+                    "name": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "assertions": []
+              }
+            }
+          ]
+        },
+        {
+          "entity": {
+            "type": "Scenario",
+            "id": "01df9ae3-c641-41b0-8b16-00680edefc8b",
+            "name": "Test APIs"
+          },
+          "children": [
+            {
+              "entity": {
+                "type": "Request",
+                "method": {
+                  "link": "",
+                  "name": "GET"
+                },
+                "uri": {
+                  "host": "${\"BaseUrl\"}",
+                  "path": "/customers"
+                },
+                "description": "Get a list of customers",
+                "id": "56c26a9a-f7a7-450e-85b8-d5bb98fd6294",
+                "name": "getCustomers",
+                "headers": [
+                  {
+                    "enabled": true,
+                    "name": "Accept",
+                    "value": "application/json"
+                  }
+                ]
+              }
+            },
+            {
+              "entity": {
+                "type": "Request",
+                "method": {
+                  "link": "",
+                  "name": "GET"
+                },
+                "uri": {
+                  "host": "${\"BaseUrl\"}",
+                  "path": "/customers/customer/${getEntityById(\"56c26a9a-f7a7-450e-85b8-d5bb98fd6294\").\"response\".\"body\".\"customerIds\".\"1\"}"
+                },
+                "id": "ab71ebb6-dbcd-4fab-b163-c91d076d985a",
+                "name": "getCustomer",
+                "headers": [
+                  {
+                    "name": "uuid",
+                    "value": "6"
+                  },
+                  {
+                    "enabled": true,
+                    "name": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "assertions": [
+                  {
+                    "comparison": "Equals",
+                    "subject": "ResponseStatus",
+                    "path": "code",
+                    "value": "200"
+                  },
+                  {
+                    "comparison": "Equals",
+                    "subject": "ResponseJsonBody",
+                    "path": "$.name",
+                    "value": "Random Customer"
+                  }
+                ]
+              }
+            },
+            {
+              "entity": {
+                "type": "Request",
+                "method": {
+                  "link": "",
+                  "name": "DELETE"
+                },
+                "uri": {
+                  "query": {
+                    "delimiter": "&",
+                    "items": []
+                  },
+                  "host": "${\"BaseUrl\"}",
+                  "path": "/customers/customer/6"
+                },
+                "id": "b347b9cc-1c18-4124-87cc-d16899f143f0",
+                "name": "Delete a customer",
+                "headers": [],
+                "assertions": [
+                  {
+                    "comparison": "Equals",
+                    "subject": "ResponseStatus",
+                    "path": "code",
+                    "value": "202"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "environments": [
+    {
+      "id": "be7dcc29-f389-4964-a9f4-46062fd1a51f",
+      "name": "customer_api 1.0.1",
+      "variables": {
+        "8e0d0d29-85b0-4135-88c9-f08400c1c70e": {
+          "name": "BaseUrl",
+          "value": "https://nort781.eu.api-mocks.com",
+          "enabled": true,
+          "createdAt": "2023-01-23T08:30:47.808Z",
+          "private": false
+        }
+      }
+    }
+  ]
+}
