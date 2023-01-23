@@ -1,0 +1,278 @@
+{
+  "openapi" : "3.0.1",
+  "info" : {
+    "title" : "customer_api",
+    "description" : "Customer Interface",
+    "contact" : { },
+    "version" : "1.0.1"
+  },
+  "security" : [ {
+    "OAuth2" : [ "write:products", "write:customers", "read:customer" ]
+  } ],
+  "paths" : {
+    "/products" : {
+      "post" : {
+        "summary" : "addProduct",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/Product"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "201" : {
+            "description" : "Status 201",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object"
+                },
+                "example" : "{\"statusCode\":201,\n \"statusMessage\":\"Product created successfully\"}"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/customers" : {
+      "get" : {
+        "summary" : "getCustomers",
+        "description" : "Get a list of customers",
+        "responses" : {
+          "200" : {
+            "description" : "Status 200",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Customers"
+                },
+                "example" : "{\n    \"customerIds\": [\n        1,\n        2\n    ]\n}"
+              }
+            }
+          },
+          "4XX" : {
+            "$ref" : "#/components/responses/Default_Error"
+          }
+        }
+      }
+    },
+    "/customers/customer/{uuid}" : {
+      "get" : {
+        "summary" : "getCustomer",
+        "parameters" : [ {
+          "name" : "uuid",
+          "in" : "header",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "example" : "BLABLA-BLA-UUID"
+        }, {
+          "name" : "Name",
+          "in" : "header",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Status 200",
+            "headers" : {
+              "application_source" : {
+                "required" : false,
+                "schema" : {
+                  "type" : "string"
+                },
+                "example" : "windows10_curl"
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Customer"
+                }
+              }
+            }
+          },
+          "204" : {
+            "description" : "Status 204"
+          },
+          "4XX" : {
+            "$ref" : "#/components/responses/Default_Error"
+          }
+        }
+      },
+      "delete" : {
+        "summary" : "Delete a customer",
+        "responses" : {
+          "202" : {
+            "description" : "Status 202"
+          },
+          "4XX" : {
+            "$ref" : "#/components/responses/Default_Error"
+          }
+        }
+      },
+      "parameters" : [ {
+        "name" : "uuid",
+        "in" : "path",
+        "required" : true,
+        "schema" : {
+          "type" : "string"
+        }
+      } ]
+    },
+    "/customers/customer" : {
+      "post" : {
+        "summary" : "create_or_update_customer",
+        "description" : "Insert a customer or update an existing customer",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/Customer"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Status 200"
+          }
+        }
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "Product" : {
+        "type" : "object",
+        "required" : [ "description", "price", "productId" ],
+        "properties" : {
+          "productId" : {
+            "type" : "string",
+            "description" : "Product of alpha numeric type",
+            "minLength" : 1,
+            "maxLength" : 6,
+            "example" : "1"
+          },
+          "description" : {
+            "type" : "string"
+          },
+          "price" : {
+            "type" : "number",
+            "format" : "double",
+            "minimum" : 0
+          },
+          "moq" : {
+            "type" : "number",
+            "format" : "int32",
+            "default" : 1,
+            "minimum" : 0,
+            "maximum" : 1000
+          }
+        },
+        "example" : "{\n    \"productId\":\"1\",\n    \"description\":\"mySampleProduct\",\n    \"price\":1.5,\n    \"moq\":1\n}"
+      },
+      "CustomerProduct" : {
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/Customers"
+        }, {
+          "$ref" : "#/components/schemas/Product"
+        } ]
+      },
+      "Customers" : {
+        "type" : "object",
+        "properties" : {
+          "customerIds" : {
+            "type" : "array",
+            "items" : {
+              "type" : "number"
+            }
+          },
+          "requestId" : {
+            "type" : "string"
+          },
+          "processedDate" : {
+            "type" : "string",
+            "format" : "date"
+          }
+        },
+        "example" : "{\n    \"customerIds\": [\n        1,\n        2\n    ],\n  \"requestId\":\"1234abc\",\n  \"processedDate\":\"2023-01-06\"\n}"
+      },
+      "Customer" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "integer",
+            "example" : 1
+          },
+          "name" : {
+            "type" : "string",
+            "example" : "MyCustomer"
+          },
+          "our_customer_since" : {
+            "type" : "string",
+            "format" : "date"
+          },
+          "sales_rep" : {
+            "type" : "string",
+            "description" : "Who is the responsible sales rep",
+            "example" : "Sven Landmann"
+          },
+          "amout_of_sales" : {
+            "type" : "integer",
+            "description" : "Quantity of sales",
+            "example" : 3500
+          },
+          "amount_of_sales_uom" : {
+            "type" : "string",
+            "description" : "Quantity of sales Unit of Measures",
+            "example" : "pcs"
+          }
+        },
+        "example" : "{\n  \"id\":1234,\n  \"name\":\"Random Customer\",\n  \"out_customer_since\":\"2022-12-01\",\n  \"sales_rep\":\"Sven Landmann\",\n  \"amount_of_sales\":1,\n  \"amount_of_sales_uom\":\"pcs\"\n}"
+      }
+    },
+    "responses" : {
+      "Default_Error" : {
+        "description" : "Default_Error",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "type" : "object",
+              "properties" : {
+                "errorCode" : {
+                  "type" : "string",
+                  "description" : "ErrorCode of this return"
+                },
+                "errorMessage" : {
+                  "type" : "string",
+                  "description" : "ErrorMessage of this return"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "securitySchemes" : {
+      "OAuth2" : {
+        "type" : "oauth2",
+        "flows" : {
+          "authorizationCode" : {
+            "scopes" : {
+              "write:products" : "",
+              "write:customers" : "",
+              "read:customer" : ""
+            }
+          }
+        }
+      }
+    }
+  }
+}
