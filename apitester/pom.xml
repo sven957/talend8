@@ -1,0 +1,38 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.talend.ci.api-tester</groupId>
+    <artifactId>customer_api_1_0_1</artifactId>
+    <version>1.0.0</version>
+    <build>
+        <plugins>
+            <plugin>
+
+                <!-- The Talend maven plugin -->
+                <groupId>org.talend.ci</groupId>
+                <artifactId>api-tester-maven-plugin</artifactId>
+                <version>1.10.2</version>
+
+                <executions>
+                    <execution>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>test</goal>
+                        </goals>
+                        <configuration>
+                          <file>customer_api_1_0_1.json</file>
+                          <selectedEnvironment>customer_api 1.0.1</selectedEnvironment>
+
+                          <!-- Enter your account ID here. Consult your account information in Talend Management Console Subscription page. -->
+                          <accountId>82fc2564-dae0-46bc-8d10-e704a7efc9b0</accountId>
+
+                          <instance>eu</instance>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+    <pluginRepositories>
+        <!-- Enter your plugin repository configuration here. -->
+    </pluginRepositories>
+</project>
